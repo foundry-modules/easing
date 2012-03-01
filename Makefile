@@ -1,13 +1,11 @@
-FOUNDRY_DIR = ../..
-PRODUCTION_DIR = ${FOUNDRY_DIR}/scripts
-DEVELOPMENT_DIR = ${FOUNDRY_DIR}/scripts_
-MODULARIZE = ${FOUNDRY_DIR}/build/modularize
-UGLIFY = uglifyjs --unsafe -nc
+include ../../build/modules.mk
 
-all: easing min
+MODULE = easing
+FILENAME = ${MODULE}.js
+SOURCE = jquery.${MODULE}.js
+PRODUCTION = ${PRODUCTION_DIR}/${FILENAME}
+DEVELOPMENT = ${DEVELOPMENT_DIR}/${FILENAME}
 
-easing:
-	${MODULARIZE} -n "easing" -jq jquery.easing.js > ${DEVELOPMENT_DIR}/easing.js
-
-min:
-	${UGLIFY} ${DEVELOPMENT_DIR}/easing.js > ${PRODUCTION_DIR}/easing.js
+all:
+	${MODULARIZE} -n "${MODULE}" ${SOURCE} > ${DEVELOPMENT}
+	${UGLIFYJS} ${DEVELOPMENT} > ${PRODUCTION}
